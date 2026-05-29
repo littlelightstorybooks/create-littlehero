@@ -785,7 +785,7 @@ function setGender(g, tab) {
 // ── ADMIN PASSWORD GATE ──────────────────────────────────────────
 // Hashes password with SHA-256 before storing — never plain text.
 (async function() {
-  var DEFAULT_HASH = '7a3f9b2e1d6c4a8f0e5b7d9c2a4f6e8b1d3c5a7e9f0b2d4c6a8e0f2b4d6c8a'; // hash of llstrybk0902
+  var DEFAULT_HASH = '7fbc93602944e565b02c8c991d526a74050e3ce8f519031add56db09a506be84'; // hash of llstrybk0902
   async function hashPw(pw) {
     var buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw));
     return Array.from(new Uint8Array(buf)).map(function(b){ return b.toString(16).padStart(2,'0'); }).join('');
@@ -1695,7 +1695,7 @@ function setLetterText(key,val){
 }
 
 async function changeAdminPassword() {
-  var DEFAULT_HASH = '7a3f9b2e1d6c4a8f0e5b7d9c2a4f6e8b1d3c5a7e9f0b2d4c6a8e0f2b4d6c8a';
+  var DEFAULT_HASH = '7fbc93602944e565b02c8c991d526a74050e3ce8f519031add56db09a506be84';
   async function hashPw(pw) {
     var buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw));
     return Array.from(new Uint8Array(buf)).map(function(b){ return b.toString(16).padStart(2,'0'); }).join('');
