@@ -533,7 +533,7 @@ body.loading{overflow:hidden;}
           <textarea class="ftextarea" id="ded-msg" rows="5"
             placeholder="Write a heartfelt message for your child. This will appear on the dedication page.&#10;&#10;Example:&#10;To my little miracle — you are God's greatest gift to us. We love you beyond words."
             oninput="onDed(this)"></textarea>
-          <div class="fcc" id="ded-cc">0 / 750 characters</div>
+          <div class="fcc" id="ded-cc">0 / 700 characters</div>
           <div class="ferr" id="e-ded">Please write a dedication message.</div>
         </div>
 
@@ -930,9 +930,9 @@ function rmPhoto(e) {
 function onDed(el) {
   var len = el.value.length;
   var cc = document.getElementById('ded-cc');
-  cc.textContent = len + ' / 750 characters';
-  cc.classList.toggle('warn', len > 650);
-  if (len > 750) el.value = el.value.slice(0, 750);
+  cc.textContent = len + ' / 700 characters';
+  cc.classList.toggle('warn', len > 600);
+  if (len > 700) el.value = el.value.slice(0, 700);
   S.ded = el.value;
 }
 
@@ -1021,7 +1021,7 @@ function goStep2() {
   document.getElementById('sl2').classList.add('act');
 
   // Always fetch latest state before building — ensures admin uploads appear
-  var minDelay = 6000; // minimum 6s so all 4 phases are seen
+  var minDelay = 9000; // minimum 9s so all 4 phases are seen
   var startTime = Date.now();
   LL.loadRemoteState(function(state) {
     buildSpreads(state);
@@ -1317,7 +1317,7 @@ function confirmOrder() {
     suc.style.display = 'block';
     document.querySelector('.steps-wrap').parentElement.appendChild(suc);
     LL.toast('Order submitted!', 'ok');
-  }, 3000);
+  }, 6000);
 }
 
 // ── PDF EXPORT ─────────────────────────────────────────────────
