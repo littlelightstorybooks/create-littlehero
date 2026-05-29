@@ -708,6 +708,9 @@ document.addEventListener('DOMContentLoaded', function() {
     appReady();
   }, 5000);
 
+  // Clear order session lock on every fresh page load
+  sessionStorage.removeItem('ht_order_placed');
+
   LL.loadRemoteState(function(state) {
     clearTimeout(_failsafe);
     applySettings(state);
