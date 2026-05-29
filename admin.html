@@ -1826,7 +1826,7 @@ function promptDeleteOrder(ref){
     var cb=function(orders){
       orders=orders.filter(function(o){return o.ref!==ref;});
       var xhr1=new XMLHttpRequest();
-      xhr1.open('GET',LL.WORKER_URL+'/db/get');
+      xhr1.open('GET',LL.WORKER_URL+'/db/get');xhr1.setRequestHeader('X-App-Token',LL.APP_TOKEN);
       xhr1.onload=function(){
         var bin={}; try{bin=JSON.parse(xhr1.responseText);}catch(e){}
         bin.orders=orders;
@@ -1951,7 +1951,7 @@ function runDiagnose(){
   }catch(e){rlog('[FAIL] Parse error: '+e.message,'err');return;}
   rlog('-- Step 2: Reading JSONBin --');
   var xhr=new XMLHttpRequest();
-  xhr.open('GET',LL.WORKER_URL+'/db/get',true);
+  xhr.open('GET',LL.WORKER_URL+'/db/get',true);xhr.setRequestHeader('X-App-Token',LL.APP_TOKEN);
   xhr.onload=function(){
     if(xhr.status!==200){rlog('[FAIL] JSONBin HTTP '+xhr.status,'err');return;}
     try{
@@ -1985,7 +1985,7 @@ function runSync(){
 function runVerify(){
   rlog('-- Verify: Reading JSONBin --');
   var xhr=new XMLHttpRequest();
-  xhr.open('GET',LL.WORKER_URL+'/db/get',true);
+  xhr.open('GET',LL.WORKER_URL+'/db/get',true);xhr.setRequestHeader('X-App-Token',LL.APP_TOKEN);
   xhr.onload=function(){
     if(xhr.status!==200){rlog('[FAIL] HTTP '+xhr.status,'err');return;}
     try{

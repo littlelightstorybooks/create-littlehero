@@ -36,6 +36,7 @@ LL.PRICING = {
 LL.loadOrders = function(onDone) {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', LL.WORKER_URL + '/db/get');
+  xhr.setRequestHeader('X-App-Token', LL.APP_TOKEN);
   xhr.onload = function() {
     if (xhr.status === 200) {
       try {
@@ -62,6 +63,7 @@ LL.saveOrder = function(order, onDone) {
   // Step 1: fetch full bin to preserve boy/girl layout data
   var xhr1 = new XMLHttpRequest();
   xhr1.open('GET', LL.WORKER_URL + '/db/get');
+  xhr1.setRequestHeader('X-App-Token', LL.APP_TOKEN);
   xhr1.onload = function() {
     var binData = {};
     try { binData = JSON.parse(xhr1.responseText); } catch(e) {}
@@ -702,6 +704,7 @@ LL.loadRemoteState = function(onDone) {
   }
   var xhr = new XMLHttpRequest();
   xhr.open('GET', LL.WORKER_URL + '/db/get', true);
+  xhr.setRequestHeader('X-App-Token', LL.APP_TOKEN);
   xhr.onload = function() {
     var local = LL._readLocalState();
     if (xhr.status === 200) {
