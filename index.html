@@ -456,7 +456,7 @@ body.loading{overflow:hidden;}
 
         <!-- Name -->
         <div class="fgrp">
-          <label class="flbl">What is your child's name? <span style="color:var(--err)">*</span></label>
+          <label class="flbl">What is your child's name? <span style="color:var(--err);font-size:.72rem;font-weight:600;">Required*</span></label>
           <input class="name-big" id="child-name" type="text" maxlength="35"
             placeholder="E.g. Zachary Jacob" oninput="onName(this.value)" autocomplete="off">
           <div class="chips" id="chips"></div>
@@ -466,7 +466,7 @@ body.loading{overflow:hidden;}
 
         <!-- Gender -->
         <div class="fgrp">
-          <label class="flbl">Gender <span style="color:var(--err)">*</span></label>
+          <label class="flbl">Gender <span style="color:var(--err);font-size:.72rem;font-weight:600;">Required*</span></label>
           <div class="gcards" id="gender-cards">
             <div class="gcard sel" onclick="pickGender('girl',this)">
               <div class="gcard-icon">👧🏻</div>
@@ -481,7 +481,7 @@ body.loading{overflow:hidden;}
 
         <!-- Photo -->
         <div class="fgrp">
-          <label class="flbl">Child's Photo <span style="color:var(--err)">*</span></label>
+          <label class="flbl">Child's Photo <span style="color:var(--err);font-size:.72rem;font-weight:600;">Required*</span></label>
           <div class="upzone" id="up-zone">
             <input type="file" id="photo-in" accept="image/*" onchange="onPhoto(this)">
             <div id="up-ph">
@@ -491,8 +491,14 @@ body.loading{overflow:hidden;}
             </div>
             <div id="up-done" style="display:none;text-align:center;">
               <div class="up-prev"><img id="photo-prev-img" src="" alt=""></div>
+              <div id="up-progress-wrap" style="display:none;margin:8px 0;">
+                <div style="background:rgba(255,255,255,.1);border-radius:20px;height:6px;overflow:hidden;">
+                  <div id="up-progress-bar" style="height:100%;width:0%;background:var(--gold);border-radius:20px;transition:width .2s;"></div>
+                </div>
+                <div id="up-progress-pct" style="font-size:.72rem;color:var(--gold);margin-top:4px;">0%</div>
+              </div>
               <button class="up-rm" onclick="rmPhoto(event)">✕ Remove Photo</button>
-              <div style="font-size:.74rem;color:var(--ok);margin-top:6px;">✓ Photo uploaded successfully</div>
+              <div style="font-size:.74rem;color:var(--ok);margin-top:6px;" id="up-success-msg" style="display:none;">✓ Photo uploaded successfully</div>
             </div>
           </div>
           <div class="ferr" id="e-photo">Please upload your child's photo.</div>
@@ -500,7 +506,7 @@ body.loading{overflow:hidden;}
 
         <!-- Book Option -->
         <div class="fgrp">
-          <label class="flbl">Book Option <span style="color:var(--err)">*</span></label>
+          <label class="flbl">Book Option <span style="color:var(--err);font-size:.72rem;font-weight:600;">Required*</span></label>
           <div class="book-cards" id="book-option-cards">
             <div class="book-card sel" id="bc-standard" onclick="pickBookOption('standard',this)">
               <div class="bc-icon">📖</div>
@@ -523,7 +529,7 @@ body.loading{overflow:hidden;}
 
         <!-- Dedication -->
         <div class="fgrp">
-          <label class="flbl">Dedication Message <span style="color:var(--err)">*</span></label>
+          <label class="flbl">Dedication Message <span style="color:var(--err);font-size:.72rem;font-weight:600;">Required*</span></label>
           <textarea class="ftextarea" id="ded-msg" rows="5"
             placeholder="Write a heartfelt message for your child. This will appear on the dedication page.&#10;&#10;Example:&#10;To my little miracle — you are God's greatest gift to us. We love you beyond words."
             oninput="onDed(this)"></textarea>
@@ -877,29 +883,39 @@ function onPhoto(input) {
   if (!f) return;
   if (f.size > 10 * 1024 * 1024) { LL.toast('Photo must be under 10MB', 'err'); return; }
 
-  // Show local preview immediately so the customer sees their photo right away
+  // Show local preview immediately
   var localURL = URL.createObjectURL(f);
   document.getElementById('photo-prev-img').src = localURL;
   document.getElementById('up-ph').style.display = 'none';
-  document.getElementById('up-done').querySelector && (document.getElementById('up-done').querySelector('div') || {}).textContent;
 
-  // Mark uploading state
-  S.photo = null; // cleared until upload completes
+  // Show progress bar
+  S.photo = null;
   var doneEl = document.getElementById('up-done');
+  var progressWrap = document.getElementById('up-progress-wrap');
+  var progressBar  = document.getElementById('up-progress-bar');
+  var progressPct  = document.getElementById('up-progress-pct');
+  var successMsg   = document.getElementById('up-success-msg');
   if (doneEl) doneEl.style.display = 'block';
-  LL.toast('Uploading photo...', '');
+  if (progressWrap) progressWrap.style.display = 'block';
+  if (successMsg) successMsg.style.display = 'none';
+  if (progressBar) progressBar.style.width = '0%';
+  if (progressPct) progressPct.textContent = '0%';
 
-  // Upload to Cloudinary
-  LL.uploadToCloudinary(f, 'littlehero_uploads/customer/photos').then(function(url) {
+  // Upload with progress
+  LL.uploadToCloudinary(f, 'littlehero_uploads/customer/photos', function(pct) {
+    if (progressBar) progressBar.style.width = pct + '%';
+    if (progressPct) progressPct.textContent = pct + '%';
+  }).then(function(url) {
     S.photo = url;
     document.getElementById('photo-prev-img').src = url;
+    if (progressWrap) progressWrap.style.display = 'none';
+    if (successMsg) successMsg.style.display = 'block';
     LL.toast('Photo uploaded!', 'ok');
   }).catch(function(e) {
     S.photo = null;
     document.getElementById('up-ph').style.display = 'block';
     if (doneEl) doneEl.style.display = 'none';
     LL.toast('Photo upload failed: ' + e.message, 'err');
-    console.error('[CL] onPhoto error:', e);
   });
 }
 
@@ -1010,6 +1026,8 @@ function goStep2() {
   LL.loadRemoteState(function(state) {
     buildSpreads(state);
     updateSummary();
+    // Disable right-click on step 2 to protect preview images
+    document.addEventListener('contextmenu', _blockRightClick);
     // Wait for minimum delay before removing loader
     var elapsed = Date.now() - startTime;
     var remaining = Math.max(0, minDelay - elapsed);
@@ -1030,8 +1048,12 @@ function goStep1() {
   document.getElementById('si-line-1').classList.remove('done');
   document.getElementById('si2').classList.remove('act');
   document.getElementById('sl2').classList.remove('act');
+  // Re-enable right-click on step 1
+  document.removeEventListener('contextmenu', _blockRightClick);
   goTo('steps');
 }
+
+function _blockRightClick(e) { e.preventDefault(); }
 
 // ── VERTICAL SCROLL BOOK VIEWER ────────────────────────────────
 // Pages rendered at fixed 420×296px then CSS-scaled to container width.

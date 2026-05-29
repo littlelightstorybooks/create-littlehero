@@ -1021,7 +1021,7 @@ LL.exportPDF = async function(pageModels, childName, goSpreadFn, spreadCount, ge
 // Returns a Promise resolving to the secure_url string.
 // This is the PRIMARY image pipeline — replaces base64 storage.
 // ----------------------------------------------------------------
-LL.uploadToCloudinary = function(file, folder) {
+LL.uploadToCloudinary = function(file, folder, onProgress) {
   return new Promise(function(resolve, reject) {
     var formData = new FormData();
     formData.append('file',   file);
@@ -1031,6 +1031,16 @@ LL.uploadToCloudinary = function(file, folder) {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', LL.CL_URL, true);
     xhr.setRequestHeader('X-App-Token', LL.APP_TOKEN);
+
+    // Progress tracking
+    if (onProgress && xhr.upload) {
+      xhr.upload.onprogress = function(e) {
+        if (e.lengthComputable) {
+          var pct = Math.round((e.loaded / e.total) * 100);
+          onProgress(pct);
+        }
+      };
+    }
     xhr.onload = function() {
       if (xhr.status === 200) {
         try {
