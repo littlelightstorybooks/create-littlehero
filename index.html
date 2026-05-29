@@ -608,7 +608,7 @@ body.loading{overflow:hidden;}
   <div style="color:var(--muted);margin-bottom:24px;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.7;" id="suc-msg">
     We've received your order <strong id="suc-ref"></strong>. We'll send your book to <strong id="suc-phone"></strong> within the delivery window. God bless you! ✦
   </div>
-  <a href="#" class="btn btn-gold" onclick="location.reload();return false;">Create Another Book</a>
+  <a href="#" class="btn btn-gold" onclick="sessionStorage.removeItem('ht_order_placed');location.reload();return false;">Create Another Book</a>
 </div>
 
 <!-- GCASH PAYMENT MODAL -->
