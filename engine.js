@@ -236,7 +236,7 @@ LL.resolveDataset = function(state, gender) {
 // @param userData -- { raw, letters, gender, photo, ded }
 LL.buildPageModel = function(state, userData, opts) {
   var useRaw = opts && opts.raw; // true = full-res URLs for PDF
-  var imgFn  = useRaw ? LL.resolveImgRaw : function(v){ return LL.resolveImg(v); };
+  var imgFn  = useRaw ? LL.resolveImgRaw : function(v){ return LL.resolveImg(v, 420); };
   var es  = state || {};
   var cfg = es.config || {};
 
