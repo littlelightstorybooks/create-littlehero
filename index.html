@@ -891,7 +891,6 @@ function onPhoto(input) {
     S.photo = url;
     document.getElementById('photo-prev-img').src = url;
     LL.toast('Photo uploaded!', 'ok');
-    console.log('[CL] customer photo: ' + url);
   }).catch(function(e) {
     S.photo = null;
     document.getElementById('up-ph').style.display = 'block';
@@ -940,7 +939,6 @@ function onSS(input) {
   LL.uploadToCloudinary(f, 'littlehero_uploads/customer/screenshots').then(function(url) {
     S.ss = url;
     document.getElementById('ss-done').textContent = 'Screenshot uploaded!';
-    console.log('[CL] payment screenshot: ' + url);
   }).catch(function(e) {
     S.ss = null;
     document.getElementById('ss-ph').style.display = 'block';
@@ -1149,13 +1147,7 @@ function renderBookScroll(frontCoverPage, innerPages, backCoverPage, name) {
   }, { passive: true });
 }
 
-// Stubs kept for any remaining references (PDF export etc.)
-function renderSpread(i)   {}
-function renderThumbs()    {}
-function pvPrev()          {}
-function pvNext()          {}
-function goSpread(i)       {}
-function updateSpreadNav() {}
+// Spread stubs removed — vertical scroll viewer handles all navigation
 
 // ── SUMMARY ────────────────────────────────────────────────────
 function updateSummary() {
@@ -1253,7 +1245,6 @@ function confirmOrder() {
 
   // Save order to JSONBin so admin can see it from any device
   LL.saveOrder(order, function() {
-    console.log('[LL] Order saved:', S.ref);
   });
 
   // Set session lock — prevents duplicate orders

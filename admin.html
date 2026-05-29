@@ -904,9 +904,7 @@ function saveAll() {
   var girlImgs = (ST.girl.introImages || []).filter(Boolean).length;
   var boyL     = Object.keys(ST.boy.letters  || {}).length;
   var girlL    = Object.keys(ST.girl.letters || {}).length;
-  console.log('[LL] saveAll payload: boy.intro=' + boyImgs + ' girl.intro=' + girlImgs + ' boy.letters=' + boyL + ' girl.letters=' + girlL);
-  console.log('[LL] SAVE PAYLOAD STRUCTURE: boy.intro=' + boyImgs + ' girl.intro=' + girlImgs
-    + ' active=' + ST.activeGender + ' size=' + Math.round(JSON.stringify(ST).length/1024) + 'KB');
+
   // Always save full ST (both genders) so switching never loses data
   setSaveStatus('saving');
   LL.saveRemoteState(ST, function(ok) {
@@ -1210,7 +1208,6 @@ function introUploadImg(input){
     D().introImages[_introIdx]=url;
     localStorage.setItem('ht_state',JSON.stringify(ST));
     markUnsaved();
-    console.log('[CL] introImages['+_introIdx+'] ('+ST.activeGender+'): '+url);
     if(s){s.className='upload-status ok';s.textContent='Uploaded!';setTimeout(function(){s.style.display='none';},3500);}
     selectIntroPage(_introIdx);
   }).catch(function(e){
@@ -1320,7 +1317,6 @@ function introLayoutChange(){
 
 function updateIntroPreview(){
   var el=document.getElementById('intro-live-preview'); if(!el)return;
-  console.log('[LL] updateIntroPreview: gender='+ST.activeGender+' idx='+_introIdx+' img='+!!(D().introImages&&D().introImages[_introIdx]));
   if(_introIdx<0){el.innerHTML='<div style="width:100%;height:100%;background:#12100E;display:flex;align-items:center;justify-content:center;"><span style="font-size:.7rem;color:rgba(255,255,255,.2);font-style:italic;">No page selected</span></div>';return;}
   var ly0=(D().introLayouts||[])[_introIdx]||{};
   // Admin preview: use sample textarea text, or hardcoded fallback — never null
@@ -1464,7 +1460,6 @@ function outroUploadImg(input){
     D().outroImages[_outroIdx]=url;
     localStorage.setItem('ht_state',JSON.stringify(ST));
     markUnsaved();
-    console.log('[CL] outroImages['+_outroIdx+'] ('+ST.activeGender+'): '+url);
     if(s){s.className='upload-status ok';s.textContent='Uploaded!';setTimeout(function(){s.style.display='none';},3500);}
     selectOutroPage(_outroIdx);
   }).catch(function(e){
@@ -1655,7 +1650,6 @@ function uploadLetterImg(input, side){
     var v=D().letters[_currentLetter].variations[_currentVariation];
     if(side==='left')  v.leftImg  = url;
     if(side==='right') v.rightImg = url;
-    console.log('[CL] letter '+_currentLetter+' '+side+' ('+ST.activeGender+'): '+url);
     localStorage.setItem('ht_state', JSON.stringify(ST));
     markUnsaved();
     if(s){s.className='upload-status ok';s.textContent='Uploaded!';setTimeout(function(){s.style.display='none';},3500);}

@@ -720,7 +720,6 @@ LL.loadRemoteState = function(onDone) {
           LL._sanitizeLayouts(merged);
           // Write merged back to localStorage so it's current
           localStorage.setItem('ht_state', JSON.stringify(merged));
-          console.log('[LL] Remote state loaded + merged with local images');
           if (onDone) onDone(merged);
           return;
         }
@@ -851,7 +850,6 @@ LL.saveRemoteState = function(state, onDone) {
   // Layer 1: Always save FULL state to localStorage (including images)
   try {
     localStorage.setItem('ht_state', JSON.stringify(state));
-    console.log('[LL] localStorage saved: ' + Math.round(JSON.stringify(state).length / 1024) + 'KB');
   } catch(e) {
     console.error('[LL] localStorage save failed:', e.message);
   }
@@ -880,8 +878,6 @@ LL.saveRemoteState = function(state, onDone) {
     if (onDone) onDone(true); // localStorage succeeded, treat as ok
     return;
   }
-
-  console.log('[LL] JSONBin payload: ' + Math.round(payload.length / 1024) + 'KB (stripped of images)');
 
   var xhr = new XMLHttpRequest();
   xhr.open('PUT', LL.WORKER_URL + '/db/put', true);
@@ -1040,7 +1036,6 @@ LL.uploadToCloudinary = function(file, folder) {
         try {
           var res = JSON.parse(xhr.responseText);
           if (res.secure_url) {
-            console.log('[CL] Uploaded: ' + res.secure_url);
             resolve(res.secure_url);
           } else {
             reject(new Error('No secure_url in response'));
