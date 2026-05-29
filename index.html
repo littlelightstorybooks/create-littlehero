@@ -589,7 +589,7 @@ body.loading{overflow:hidden;}
               </div>
             </div>
             <div class="confirm-btn-wrap">
-              <button class="btn btn-gold btn-full" onclick="openPayment()">Order Now →</button>
+              <button class="btn btn-gold btn-full" id="order-now-btn" onclick="openPayment()">Order Now →</button>
             </div>
             <a class="edit-link" onclick="goStep1()">← Edit details</a>
           </div>
@@ -1195,6 +1195,11 @@ function updateModalPrice() {
 
 // ── PAYMENT ────────────────────────────────────────────────────
 function openPayment() {
+  // Session lock — prevent duplicate orders in same session
+  if (sessionStorage.getItem('ht_order_placed') === '1') {
+    LL.toast('Order already placed. Click "Create Another Book" to start a new order.', 'err');
+    return;
+  }
   var now=new Date();
   var mm=String(now.getMonth()+1).padStart(2,'0');
   var dd=String(now.getDate()).padStart(2,'0');
@@ -1250,6 +1255,11 @@ function confirmOrder() {
   LL.saveOrder(order, function() {
     console.log('[LL] Order saved:', S.ref);
   });
+
+  // Set session lock — prevents duplicate orders
+  sessionStorage.setItem('ht_order_placed', '1');
+  var orderBtn = document.getElementById('order-now-btn');
+  if (orderBtn) { orderBtn.disabled = true; orderBtn.textContent = 'Order Placed ✓'; }
 
   LL.firePixel(total);
   cModal('pay-modal');

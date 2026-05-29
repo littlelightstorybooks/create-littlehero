@@ -4,10 +4,11 @@
 // Write operations require secret token.
 
 const ALLOWED_ORIGINS = [
+  'https://littlelightstorybooks.github.io',
   'https://littlelightstorybooks.com',
   'https://www.littlelightstorybooks.com',
-  'http://localhost:5500',   // local dev
-  'http://127.0.0.1:5500',  // local dev
+  'http://localhost:5500',
+  'http://127.0.0.1:5500',
 ];
 
 function getCors(origin) {
@@ -45,8 +46,9 @@ export default {
       return null; // OK
     }
 
-    // ── /db/get — read full bin (no token needed for reads) ──────
+    // ── /db/get — read full bin (token required) ─────────────────
     if (path === '/db/get') {
+      const deny = requireToken(); if (deny) return deny;
       const res = await fetch(`https://api.jsonbin.io/v3/b/${env.JSONBIN_BIN}/latest`, {
         headers: { 'X-Master-Key': env.JSONBIN_KEY, 'X-Bin-Meta': 'false' },
       });
