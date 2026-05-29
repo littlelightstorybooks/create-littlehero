@@ -783,33 +783,20 @@ function setGender(g, tab) {
 // INIT
 // ----------------------------------------------------------------
 // ── ADMIN PASSWORD GATE ──────────────────────────────────────────
-// Hashes password with SHA-256 before storing — never plain text.
-(async function() {
-  var DEFAULT_HASH = '7fbc93602944e565b02c8c991d526a74050e3ce8f519031add56db09a506be84'; // hash of llstrybk0902
-  async function hashPw(pw) {
-    var buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw));
-    return Array.from(new Uint8Array(buf)).map(function(b){ return b.toString(16).padStart(2,'0'); }).join('');
-  }
+(function() {
+  var DEFAULT_PW = 'llstrybk0902';
   var session = sessionStorage.getItem('ht_admin_unlocked');
   if (session === '1') return;
-  var storedHash = localStorage.getItem('ht_admin_hash') || DEFAULT_HASH;
+  var stored = localStorage.getItem('ht_admin_pw') || DEFAULT_PW;
   var attempts = 0;
-  async function tryLogin() {
-    if (attempts >= 3) {
-      document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;color:#888;">Access denied.</div>';
-      return;
-    }
+  while (attempts < 3) {
     var input = prompt('Little Light Admin\n\nEnter password:');
     if (input === null) { document.body.innerHTML = ''; return; }
-    var h = await hashPw(input);
-    if (h === storedHash) { sessionStorage.setItem('ht_admin_unlocked','1'); return; }
+    if (input === stored) { sessionStorage.setItem('ht_admin_unlocked', '1'); return; }
     attempts++;
-    if (attempts < 3) { alert('Incorrect password. ' + (3-attempts) + ' attempt(s) remaining.'); await tryLogin(); }
-    else {
-      document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;color:#888;">Access denied.</div>';
-    }
+    if (attempts < 3) alert('Incorrect password. ' + (3 - attempts) + ' attempt(s) remaining.');
   }
-  await tryLogin();
+  document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;color:#888;">Access denied.</div>';
 })();
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -1694,23 +1681,17 @@ function setLetterText(key,val){
   markUnsaved(); updateLetterPreview();
 }
 
-async function changeAdminPassword() {
-  var DEFAULT_HASH = '7fbc93602944e565b02c8c991d526a74050e3ce8f519031add56db09a506be84';
-  async function hashPw(pw) {
-    var buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw));
-    return Array.from(new Uint8Array(buf)).map(function(b){ return b.toString(16).padStart(2,'0'); }).join('');
-  }
-  var storedHash = localStorage.getItem('ht_admin_hash') || DEFAULT_HASH;
+function changeAdminPassword() {
+  var DEFAULT_PW = 'llstrybk0902';
+  var stored = localStorage.getItem('ht_admin_pw') || DEFAULT_PW;
   var current = document.getElementById('cfg-pw-current').value;
   var newPw   = document.getElementById('cfg-pw-new').value;
   var confirm = document.getElementById('cfg-pw-confirm').value;
-  if (!newPw.trim())     { toast('New password cannot be empty.', 'err'); return; }
-  if (newPw !== confirm) { toast('New passwords do not match.', 'err'); return; }
-  if (newPw.length < 6)  { toast('Password must be at least 6 characters.', 'err'); return; }
-  var currentHash = await hashPw(current);
-  if (currentHash !== storedHash) { toast('Current password is incorrect.', 'err'); return; }
-  var newHash = await hashPw(newPw);
-  localStorage.setItem('ht_admin_hash', newHash);
+  if (current !== stored)  { toast('Current password is incorrect.', 'err'); return; }
+  if (!newPw.trim())       { toast('New password cannot be empty.', 'err'); return; }
+  if (newPw !== confirm)   { toast('New passwords do not match.', 'err'); return; }
+  if (newPw.length < 6)   { toast('Password must be at least 6 characters.', 'err'); return; }
+  localStorage.setItem('ht_admin_pw', newPw);
   document.getElementById('cfg-pw-current').value = '';
   document.getElementById('cfg-pw-new').value = '';
   document.getElementById('cfg-pw-confirm').value = '';
