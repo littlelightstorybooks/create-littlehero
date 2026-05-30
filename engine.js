@@ -426,7 +426,7 @@ LL.renderPage = function(page, name, giver) {
         var sz  = (ly.fontSize || ly.size || 13) + 'px';
         var col = ly.color  || '#FFFFFF';
         var bld = ly.bold   ? '700' : '400';
-        var lh  = ly.lineHeight || 1.6;
+        var lh  = (ly.lineHeight && ly.lineHeight >= 1) ? ly.lineHeight : (meta.isFrontCover ? 1.1 : 1.6);
         var tt  = ly.textTransform || 'none';
         var mw  = (ly.maxWidth != null ? ly.maxWidth : 80) + '%';
         var lft = (ly.startX   != null ? ly.startX   : 50) + '%';
