@@ -332,15 +332,16 @@ body.loading{overflow:hidden;}
 .ss-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
 
 /* ── SUCCESS ── */
-.suc{display:none;text-align:center;padding:88px 32px;background:var(--bg);min-height:100vh;}
+.suc{display:none;text-align:center;padding:88px 32px;background:#0d0a08 !important;min-height:100vh;color:rgba(245,237,224,.85);}
 .suc.on{display:block;}
-.faq-item{background:rgba(255,255,255,.04);border:1px solid rgba(201,148,58,.15);border-radius:10px;overflow:hidden;}
-.faq-q{padding:16px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:.88rem;color:rgba(245,237,224,.85);font-weight:500;user-select:none;}
+.faq-list{display:flex;flex-direction:column;gap:8px;}
+.faq-item{background:rgba(255,255,255,.06);border:1px solid rgba(201,148,58,.2);border-radius:10px;overflow:hidden;}
+.faq-q{padding:16px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:.88rem;color:rgba(245,237,224,.9);font-weight:500;user-select:none;background:transparent;}
 .faq-q:hover{background:rgba(255,255,255,.04);}
-.faq-icon{color:var(--gold);font-size:1.1rem;flex-shrink:0;transition:transform .25s;}
+.faq-icon{color:#C9943A;font-size:1.1rem;flex-shrink:0;transition:transform .25s;}
 .faq-item.open .faq-icon{transform:rotate(45deg);}
-.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;padding:0 20px;font-size:.83rem;color:rgba(245,237,224,.65);line-height:1.7;}
-.faq-item.open .faq-a{max-height:400px;padding:0 20px 16px;}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;padding:0 20px;font-size:.83rem;color:rgba(245,237,224,.7);line-height:1.7;}
+.faq-item.open .faq-a{max-height:500px;padding:0 20px 16px;}
 
 /* ── PDF PROGRESS ── */
 .pdf-progress{display:none;position:fixed;inset:0;z-index:800;
@@ -764,10 +765,9 @@ body.loading{overflow:hidden;}
 
 <!-- MESSENGER FLOAT -->
 <a class="msng-float" href="https://m.me/728867286986943" target="_blank" rel="noopener" aria-label="Message us on Messenger">
-  <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
     <circle cx="28" cy="28" r="28" fill="#0084FF"/>
-    <path d="M28 10C18.059 10 10 17.617 10 27c0 5.053 2.136 9.608 5.592 12.86V46l6.182-3.394A19.053 19.053 0 0028 44c9.941 0 18-7.617 18-17S37.941 10 28 10z" fill="white"/>
-    <path d="M20.5 31.5l7.5-8 4 4 7-7.5-7.5 8-4-4-7 7.5z" fill="#0084FF"/>
+    <path d="M28 11C18.06 11 10 18.61 10 28c0 5.05 2.14 9.61 5.59 12.86V47l6.18-3.4A18.9 18.9 0 0028 45c9.94 0 18-7.61 18-17S37.94 11 28 11zm1.79 22.89l-4.55-4.86-8.88 4.86 9.78-10.38 4.67 4.86 8.76-4.86-9.78 10.38z" fill="white"/>
   </svg>
   <span class="msng-tooltip">Message us</span>
 </a>
@@ -1448,6 +1448,8 @@ function confirmOrder() {
     suc.classList.add('on');
     suc.style.display = 'block';
     document.querySelector('.steps-wrap').parentElement.appendChild(suc);
+    document.body.style.background = '#0d0a08';
+    document.body.style.margin = '0';
     renderFAQ();
     LL.toast('Order submitted!', 'ok');
   }, 6000);
