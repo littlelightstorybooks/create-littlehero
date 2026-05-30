@@ -96,7 +96,7 @@ var DEFAULT_MEANINGS = {
     {
       title:"D – Delightful",
       text:"Delightful {{babyname}}, full of cheer,\nGod rejoices when you are near.\nYour laughter fills the room with song,\nA joy that God has had all along.\n\n{{babyname}}, the sound of your laugh makes heaven smile.",
-      verse:"\"God delights in those who put their hope in His unfailing love." - Psalm 147:11"
+      verse:"\"God delights in those who put their hope in His unfailing love.\" - Psalm 147:11"
     },
     {
       title:"D – Devoted",
@@ -106,7 +106,7 @@ var DEFAULT_MEANINGS = {
     {
       title:"D – Dazzling",
       text:"Dazzling {{babyname}}, bright as the sun,\nGod's greatest masterpiece, His special one.\nHe painted you with colors rare,\nA one-of-a-kind beyond compare.\n\n{{babyname}}, God took His time when He made you because you are worth it.",
-      verse:"\"God is the master builder, and you are His finest work." - Psalm 92:4"
+      verse:"\"God is the master builder, and you are His finest work.\" - Psalm 92:4"
     },
     {
       title:"D – Defended",
@@ -231,7 +231,7 @@ var DEFAULT_MEANINGS = {
     {
       title:"I – Incredible",
       text:"Incredible {{babyname}}, rare and true,\nGod made something special when He made you.\nNo one else can do what you can do,\nThe world needs the gift that is uniquely you.\n\n{{babyname}}, God does not mass produce people, He handcrafts each one.",
-      verse:"\"Your hands made me and formed me; give me understanding." - Psalm 119:73"
+      verse:"\"Your hands made me and formed me; give me understanding.\" - Psalm 119:73"
     },
     {
       title:"I – Immovable",
@@ -300,7 +300,7 @@ var DEFAULT_MEANINGS = {
     {
       title:"K – Knit Together",
       text:"Knit together, {{babyname}}, stitch by stitch,\nGod designed you without a glitch.\nEvery detail, every part,\nBegun in love right from the start.\n\n{{babyname}}, God was thinking of you and smiling long before you were born.",
-      verse:"\"God forms the spirit of each person within them." - Zechariah 12:1"
+      verse:"\"God forms the spirit of each person within them.\" - Zechariah 12:1"
     }
   ],
   L:[
@@ -334,12 +334,12 @@ var DEFAULT_MEANINGS = {
     {
       title:"M – Marvellous",
       text:"Marvellous {{babyname}}, rare and true,\nGod made something wonderful in you.\nEvery part of who you are,\nShines as bright as any star.\n\n{{babyname}}, you are one of God's most marvellous creations.",
-      verse:"\"God's works are wonderful; they fill the earth with His glory." - Psalm 145:5"
+      verse:"\"God's works are wonderful; they fill the earth with His glory.\" - Psalm 145:5"
     },
     {
       title:"M – Mighty",
       text:"Mighty {{babyname}}, strong inside,\nWith God's great power as your guide.\nSmall in size but never small,\nWith Jesus you can do it all.\n\n{{babyname}}, the same God who moved mountains is the One on your side.",
-      verse:"\"The Lord your God goes with you; He will never leave you nor forsake you." - Deuteronomy 31:6"
+      verse:"\"The Lord your God goes with you; He will never leave you nor forsake you.\" - Deuteronomy 31:6"
     },
     {
       title:"M – Merciful",
@@ -403,7 +403,7 @@ var DEFAULT_MEANINGS = {
     {
       title:"O – Outstanding",
       text:"Outstanding {{babyname}}, set apart,\nGod has placed a gift in your heart.\nAmong the many you still shine,\nWith qualities uniquely thine.\n\n{{babyname}}, God made sure that you would stand out in the most beautiful way.",
-      verse:"\"But you belong to God; therefore you are His and He is yours." - 1 John 4:6"
+      verse:"\"But you belong to God; therefore you are His and He is yours.\" - 1 John 4:6"
     },
     {
       title:"O – Ordained",
@@ -425,7 +425,7 @@ var DEFAULT_MEANINGS = {
     {
       title:"P – Purposeful",
       text:"Purposeful {{babyname}}, made with aim,\nNothing about you is quite the same.\nGod placed a mission in your heart,\nA calling only you can start.\n\n{{babyname}}, you were not born by accident, you were born with a purpose.",
-      verse:"\"You are God's poem, written with care and purpose." - Romans 8:28"
+      verse:"\"You are God's poem, written with care and purpose.\" - Romans 8:28"
     },
     {
       title:"P – Peaceful",
@@ -457,7 +457,7 @@ var DEFAULT_MEANINGS = {
     {
       title:"Q – Quest",
       text:"On a quest, {{babyname}}, brave and true,\nGod has a great adventure for you.\nSeek His Kingdom every day,\nAnd watch Him light up every way.\n\n{{babyname}}, seeking God is the greatest quest any heart can go on.",
-      verse:"\"Those who seek the Lord lack no good thing." - Psalm 34:10"
+      verse:"\"Those who seek the Lord lack no good thing.\" - Psalm 34:10"
     },
     {
       title:"Q – Quality",
@@ -523,7 +523,7 @@ var DEFAULT_MEANINGS = {
     {
       title:"T – Treasured",
       text:"Treasured {{babyname}}, God's very own,\nThe love He has for you has grown.\nOut of all the world so wide,\nHe chose to keep you by His side.\n\n{{babyname}}, to God you are not just important, you are His treasure.",
-      verse:"\"The Lord has set you apart for Himself as His very own." - Psalm 4:3"
+      verse:"\"The Lord has set you apart for Himself as His very own.\" - Psalm 4:3"
     },
     {
       title:"T – Transformed",
@@ -538,7 +538,7 @@ var DEFAULT_MEANINGS = {
     {
       title:"T – Tender",
       text:"Tender {{babyname}}, gentle heart,\nGod treasures every part.\nA soft and caring way to live,\nIs the greatest gift that you can give.\n\n{{babyname}}, a tender heart is one of the most powerful things in the world.",
-      verse:"\"The Lord is my shepherd, I lack nothing." - Psalm 23:1"
+      verse:"\"The Lord is my shepherd, I lack nothing.\" - Psalm 23:1"
     },
     {
       title:"T – Trusted",
@@ -560,7 +560,7 @@ var DEFAULT_MEANINGS = {
     {
       title:"U – Unique",
       text:"Unique {{babyname}}, unlike the rest,\nGod put in you what He thought best.\nNot a copy, not a clone,\nYou are wonderfully your own.\n\n{{babyname}}, God made only one of you and He thinks that is something worth celebrating.",
-      verse:"\"The Lord has done great things for us, and we are filled with joy." - Psalm 126:3"
+      verse:"\"The Lord has done great things for us, and we are filled with joy.\" - Psalm 126:3"
     },
     {
       title:"U – United",
@@ -592,7 +592,7 @@ var DEFAULT_MEANINGS = {
     {
       title:"V – Visible",
       text:"Visible {{babyname}}, shining clear,\nGod's light in you is always near.\nDon't hide the good that God has done,\nLet others see what He's begun.\n\n{{babyname}}, the good God put in you is meant to be seen by the world.",
-      verse:"\"Walk in the light, as He is in the light." - 1 John 1:7"
+      verse:"\"Walk in the light, as He is in the light.\" - 1 John 1:7"
     },
     {
       title:"V – Vessel",
@@ -619,7 +619,7 @@ var DEFAULT_MEANINGS = {
     {
       title:"W – Walking",
       text:"Walking {{babyname}}, step by step,\nWith God beside you, faith is kept.\nEvery path He walks along,\nWith you to make the journey strong.\n\n{{babyname}}, the walk with God is the most meaningful walk your feet will ever take.",
-      verse:"\"The humble will be lifted up and the gentle will inherit the earth." - Matthew 5:5"
+      verse:"\"The humble will be lifted up and the gentle will inherit the earth.\" - Matthew 5:5"
     },
     {
       title:"W – Watched Over",
