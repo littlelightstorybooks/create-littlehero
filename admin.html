@@ -1801,7 +1801,7 @@ function clearOrders(){
   showConfirm('Clear ALL orders? Cannot be undone.',function(){
     // Fetch full bin, wipe orders key, write back
     var xhr1=new XMLHttpRequest();
-    xhr1.open('GET',LL.WORKER_URL+'/db/get');
+    xhr1.open('GET',LL.WORKER_URL+'/db/get');xhr1.setRequestHeader('X-App-Token',LL.APP_TOKEN);
     xhr1.onload=function(){
       var bin={}; try{bin=JSON.parse(xhr1.responseText);}catch(e){}
       bin.orders=[];
