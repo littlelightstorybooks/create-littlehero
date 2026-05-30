@@ -83,9 +83,17 @@ export default {
     if (path === '/upload' && request.method === 'POST') {
       const deny = requireToken(); if (deny) return deny;
       const formData = await request.formData();
-      const file   = formData.get('file');
-      // Folder assigned server-side — never exposed in browser
-      const folder = formData.get('folder') || 'littlehero_uploads';
+      const file       = formData.get('file');
+      const uploadType = formData.get('uploadType') || 'template';
+
+      // Force folder server-side based on upload type
+      // Customer uploads go to a dedicated folder for easy management/cleanup
+      const FOLDERS = {
+        'customer-photo':      'littlehero_uploads/customers/photos',
+        'customer-screenshot': 'littlehero_uploads/customers/screenshots',
+      };
+      // Template uploads (intro, letter, outro, config) use the folder sent by client
+      const folder = FOLDERS[uploadType] || formData.get('folder') || 'littlehero_uploads/templates';
 
       const fd = new FormData();
       fd.append('file', file);

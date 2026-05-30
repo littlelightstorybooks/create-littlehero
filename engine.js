@@ -1025,12 +1025,13 @@ LL.exportPDF = async function(pageModels, childName, goSpreadFn, spreadCount, ge
 // Returns a Promise resolving to the secure_url string.
 // This is the PRIMARY image pipeline — replaces base64 storage.
 // ----------------------------------------------------------------
-LL.uploadToCloudinary = function(file, folder, onProgress) {
+LL.uploadToCloudinary = function(file, folder, onProgress, uploadType) {
   return new Promise(function(resolve, reject) {
     var formData = new FormData();
     formData.append('file',   file);
     formData.append('folder', folder || 'littlehero_uploads');
-    // upload_preset is added server-side by the Cloudflare Worker
+    if (uploadType) formData.append('uploadType', uploadType);
+    // upload_preset and final folder enforced server-side by Cloudflare Worker
 
     var xhr = new XMLHttpRequest();
     xhr.open('POST', LL.CL_URL, true);

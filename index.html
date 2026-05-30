@@ -912,10 +912,10 @@ function onPhoto(input) {
   if (progressPct) progressPct.textContent = '0%';
 
   // Upload with progress
-  LL.uploadToCloudinary(f, 'littlehero_uploads/customer/photos', function(pct) {
+  LL.uploadToCloudinary(f, 'littlehero_uploads/customers/photos', function(pct) {
     if (progressBar) progressBar.style.width = pct + '%';
     if (progressPct) progressPct.textContent = pct + '%';
-  }).then(function(url) {
+  }, 'customer-photo').then(function(url) {
     S.photo = url;
     document.getElementById('photo-prev-img').src = url;
     if (progressWrap) progressWrap.style.display = 'none';
@@ -973,7 +973,7 @@ function onSS(input) {
   document.getElementById('ss-done').textContent = 'Uploading screenshot...';
   S.ss = null;
 
-  LL.uploadToCloudinary(f, 'littlehero_uploads/customer/screenshots').then(function(url) {
+  LL.uploadToCloudinary(f, 'littlehero_uploads/customers/screenshots', null, 'customer-screenshot').then(function(url) {
     S.ss = url;
     document.getElementById('ss-done').textContent = 'Screenshot uploaded!';
   }).catch(function(e) {
