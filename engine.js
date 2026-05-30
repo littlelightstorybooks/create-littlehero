@@ -432,12 +432,11 @@ LL.renderPage = function(page, name, giver) {
         var lft = (ly.startX   != null ? ly.startX   : 50) + '%';
         var top = (ly.startY   != null ? ly.startY   : 80) + '%';
         var outlineCss = LL.outlineStyle(ly);
-        var defaultShadow = ly.outlineEnabled ? '' : 'text-shadow:0 1px 4px rgba(0,0,0,.55);';
         overlay = '<div style="position:absolute;left:' + lft + ';top:' + top + ';'
           + 'transform:translateX(-50%);width:' + mw + ';text-align:center;pointer-events:none;">'
           + '<div style="font-family:' + fnt + ';font-size:' + sz + ';font-weight:' + bld + ';'
           + 'color:' + col + ';line-height:' + lh + ';text-transform:' + tt + ';'
-          + defaultShadow + outlineCss + 'word-break:break-word;white-space:pre-wrap;">'
+          + outlineCss + 'word-break:break-word;white-space:pre-wrap;">'
           + LL.escHtml(msg) + '</div></div>';
       }
       // Customer photo overlay (contains without cropping)
