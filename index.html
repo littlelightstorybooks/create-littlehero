@@ -457,7 +457,7 @@ body.loading{overflow:hidden;}
         <!-- Name -->
         <div class="fgrp">
           <label class="flbl">What is your child's name? <span style="color:var(--err);font-size:.72rem;font-weight:600;">Required*</span></label>
-          <input class="name-big" id="child-name" type="text" maxlength="35"
+          <input class="name-big" id="child-name" type="text" maxlength="30"
             placeholder="E.g. Zachary Jacob" oninput="onName(this.value)" autocomplete="off">
           <div class="chips" id="chips"></div>
           <div class="fhint" id="name-hint">Spaces allowed and not counted in pricing.</div>
@@ -513,7 +513,7 @@ body.loading{overflow:hidden;}
               <div class="bc-title">Standard Option</div>
               <div class="bc-price" id="bt-std-price">₱599</div>
               <div class="bc-desc"><strong>A5 Landscape (5.8" × 8.3")</strong><br>
-                220 GSM Glossy Photo Paper · Staple-bound · Vibrant high-quality print for everyday reading.</div>
+                220 GSM Premium Glossy Photo Paper All Pages · Staple-bound · Vibrant high-quality print for everyday reading.</div>
             </div>
             <div class="book-card" id="bc-hardbound" onclick="pickBookOption('hardbound',this)">
               <div class="bc-badge">Premium</div>
@@ -530,7 +530,7 @@ body.loading{overflow:hidden;}
         <!-- Dedication -->
         <div class="fgrp">
           <label class="flbl">Dedication Message <span style="color:var(--err);font-size:.72rem;font-weight:600;">Required*</span></label>
-          <textarea class="ftextarea" id="ded-msg" rows="5"
+          <textarea class="ftextarea" id="ded-msg" rows="5" maxlength="700"
             placeholder="Write a heartfelt message for your child. This will appear on the dedication page.&#10;&#10;Example:&#10;To my little miracle — you are God's greatest gift to us. We love you beyond words."
             oninput="onDed(this)"></textarea>
           <div class="fcc" id="ded-cc">0 / 700 characters</div>
@@ -837,7 +837,23 @@ function appReady() {
 
 // ── FORM HANDLERS ──────────────────────────────────────────────
 function onName(v) {
+  // Auto-capitalize each word, strip non-letters/spaces, max 15 letters (spaces not counted)
   var cleaned = v.replace(/[^a-zA-Z ]/g, '').replace(/  +/g, ' ');
+  // Auto-capitalize first letter of each word
+  cleaned = cleaned.replace(/\b\w/g, function(c) { return c.toUpperCase(); });
+  // Enforce max 15 letters (spaces not counted)
+  var lettersOnly = cleaned.replace(/ /g, '');
+  if (lettersOnly.length > 15) {
+    // Trim to 15 letters, preserving spaces
+    var count = 0;
+    var trimmed = '';
+    for (var ci = 0; ci < cleaned.length; ci++) {
+      if (cleaned[ci] === ' ') { trimmed += ' '; }
+      else if (count < 15) { trimmed += cleaned[ci]; count++; }
+      else break;
+    }
+    cleaned = trimmed.trimEnd();
+  }
   var inp = document.getElementById('child-name');
   if (inp && inp.value !== cleaned) {
     var pos = inp.selectionStart || 0;
@@ -846,7 +862,7 @@ function onName(v) {
   }
   S.raw     = cleaned;
   S.letters = cleaned.replace(/ /g, '').toUpperCase();
-  var disp  = cleaned.trim().replace(/\b\w/g, function(c) { return c.toUpperCase(); });
+  var disp  = cleaned.trim();
   renderChips(cleaned.trim());
   var hn = document.getElementById('hero-name-display');
   if (hn) hn.textContent = disp || 'Your Child';
@@ -938,15 +954,16 @@ function rmPhoto(e) {
 }
 
 function onDed(el) {
+  if (el.value.length > 700) el.value = el.value.slice(0, 700);
   var len = el.value.length;
   var cc = document.getElementById('ded-cc');
   cc.textContent = len + ' / 700 characters';
   cc.classList.toggle('warn', len > 600);
-  if (len > 700) el.value = el.value.slice(0, 700);
   S.ded = el.value;
 }
 
 function onGiver(el) {
+  if (el.value.length > 60) el.value = el.value.slice(0, 60);
   var len = el.value.length;
   var cc = document.getElementById('giver-cc');
   cc.textContent = len + ' / 60 characters';
@@ -1009,7 +1026,7 @@ function goStep2() {
   var phases = [
     'Years from now, they may still smile remembering this story…',
     'We\'re turning their name into something they can treasure…',
-    'Adding blessing, Christ-centered message, and Bible verse to every page…',
+    'Adding blessings, Christ-centered messages, and Bible verses to every page…',
     'Almost ready. Made especially for your little one…'
   ];
   var previewLoader = document.createElement('div');
