@@ -1797,7 +1797,9 @@ function renderOrdersTable(orders){
     var gender=(child.gender||'boy');
     var gBadge='<span style="font-size:.6rem;padding:2px 6px;border-radius:8px;font-weight:700;background:'+(gender==='girl'?'var(--girl-p)':'var(--boy-p)')+';color:'+(gender==='girl'?'var(--girl)':'var(--boy)')+';">'+(gender==='girl'?'Girl':'Boy')+'</span>';
     return '<tr>'
-      +'<td>'+ref+'</td><td>'+LL.escHtml(child.name||'--')+' '+gBadge+'</td><td>'+LL.escHtml(buyer.phone||'--')+'</td>'
+      +'<td>'+ref+'</td><td>'+LL.escHtml(child.name||'--')+' '+gBadge+'</td>'
+      +'<td>'+LL.escHtml(buyer.name||'--')+'</td>'
+      +'<td>'+LL.escHtml(buyer.phone||'--')+'</td>'
       +'<td>\u20B1'+((pay.amount||0).toLocaleString())+'</td>'
       +'<td><select class="status-sel" onchange="updateOrderStatus(\''+ref+'\',this.value)">'
         +['pending','confirmed','shipped','completed','cancelled'].map(function(s){return'<option value="'+s+'"'+(pay.status===s?' selected':'')+'>'+s+'</option>';}).join('')+'</select></td>'
@@ -1805,7 +1807,7 @@ function renderOrdersTable(orders){
       +'<td><div class="act-btns"><button class="act-btn p" onclick="adminDownloadOrderPDF(\''+ref+'\')">PDF</button><button class="act-btn danger" onclick="promptDeleteOrder(\''+ref+'\')">Del</button></div></td>'
       +'</tr>';
   }).join('');
-  return '<table><thead><tr><th>Ref</th><th>Child</th><th>Phone</th><th>Amount</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody>'+rows+'</tbody></table>';
+  return '<table><thead><tr><th>Ref</th><th>Child</th><th>Buyer Name</th><th>Phone</th><th>Amount</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody>'+rows+'</tbody></table>';
 }
 
 function filterOrders(q){_ordersFilter=q;renderOrders();}

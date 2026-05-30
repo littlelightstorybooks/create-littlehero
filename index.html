@@ -459,6 +459,7 @@ body.loading{overflow:hidden;}
           <label class="flbl">What is your child's name? <span style="color:var(--err);font-size:.72rem;font-weight:600;">Required*</span></label>
           <input class="name-big" id="child-name" type="text" maxlength="30"
             placeholder="E.g. Zachary Jacob" oninput="onName(this.value)" autocomplete="off">
+          <div class="fcc" id="name-cc" style="margin-top:4px;">0 / 15 letters</div>
           <div class="chips" id="chips"></div>
           <div class="fhint" id="name-hint">Spaces allowed and not counted in pricing.</div>
           <div class="ferr" id="e-cname">Please enter your child's name.</div>
@@ -633,7 +634,7 @@ body.loading{overflow:hidden;}
     <button class="modal-x" onclick="cModal('pay-modal')">✕</button>
     <div class="modal-tag">GCash Payment</div>
     <div class="modal-h">Send Your Payment</div>
-    <div class="modal-sub">Send the exact amount to the GCash number below, then upload your screenshot.</div>
+    <div class="modal-sub">Please send the exact amount to the GCash account below, then upload a screenshot of your payment for verification.<br><br>You may also transfer using your banking app by selecting:<br><strong>Transfer → E-Wallet → GCash</strong><br><br>Account Name: <strong>LLSTRYBKS</strong><br>GCash Number: <strong>0919 093 4772</strong></div>
     <div class="gcash-box">
       <div class="gcash-qr" id="gcash-qr-wrap">
         <span style="font-size:.7rem;color:var(--muted)">QR Code</span>
@@ -672,7 +673,15 @@ body.loading{overflow:hidden;}
         <input type="file" id="ss-in" accept="image/*" onchange="onSS(this)">
         <div id="ss-ph"><div style="font-size:1.6rem;margin-bottom:6px;">🖼️</div>
           <div style="font-size:.82rem;color:var(--brown);font-weight:500;">Tap to upload payment screenshot</div></div>
-        <div id="ss-done" style="display:none;color:var(--ok);font-size:.82rem;padding:8px;">✓ Screenshot uploaded</div>
+        <div id="ss-done" style="display:none;padding:8px;">
+          <div id="ss-progress-wrap" style="display:none;margin-bottom:6px;">
+            <div style="background:rgba(255,255,255,.1);border-radius:20px;height:6px;overflow:hidden;">
+              <div id="ss-progress-bar" style="height:100%;width:0%;background:var(--gold);border-radius:20px;transition:width .2s;"></div>
+            </div>
+            <div id="ss-progress-pct" style="font-size:.72rem;color:var(--gold);margin-top:4px;">0%</div>
+          </div>
+          <div id="ss-success-msg" style="color:var(--ok);font-size:.82rem;">✓ Screenshot uploaded</div>
+        </div>
       </div>
       <div class="ferr" id="e-ss">Please upload your payment screenshot.</div>
     </div>
@@ -863,6 +872,13 @@ function onName(v) {
   S.raw     = cleaned;
   S.letters = cleaned.replace(/ /g, '').toUpperCase();
   var disp  = cleaned.trim();
+  // Update letter counter
+  var nameCC = document.getElementById('name-cc');
+  if (nameCC) {
+    var lCount = S.letters.length;
+    nameCC.textContent = lCount + ' / 15 letters';
+    nameCC.classList.toggle('warn', lCount >= 13);
+  }
   renderChips(cleaned.trim());
   var hn = document.getElementById('hero-name-display');
   if (hn) hn.textContent = disp || 'Your Child';
@@ -985,20 +1001,33 @@ function phoneOK() { return /^09\d{9}$/.test(document.getElementById('b-phone').
 function onSS(input) {
   var f = input.files[0];
   if (!f) return;
-  document.getElementById('ss-ph').style.display = 'none';
-  document.getElementById('ss-done').style.display = 'block';
-  document.getElementById('ss-done').textContent = 'Uploading screenshot...';
   S.ss = null;
+  var phEl   = document.getElementById('ss-ph');
+  var doneEl = document.getElementById('ss-done');
+  var progWrap = document.getElementById('ss-progress-wrap');
+  var progBar  = document.getElementById('ss-progress-bar');
+  var progPct  = document.getElementById('ss-progress-pct');
+  var sucMsg   = document.getElementById('ss-success-msg');
+  phEl.style.display = 'none';
+  doneEl.style.display = 'block';
+  if (progWrap) progWrap.style.display = 'block';
+  if (sucMsg) sucMsg.style.display = 'none';
+  if (progBar) progBar.style.width = '0%';
+  if (progPct) progPct.textContent = '0%';
 
-  LL.uploadToCloudinary(f, 'littlehero_uploads/customers/screenshots', null, 'customer-screenshot').then(function(url) {
+  LL.uploadToCloudinary(f, 'littlehero_uploads/customers/screenshots', function(pct) {
+    if (progBar) progBar.style.width = pct + '%';
+    if (progPct) progPct.textContent = pct + '%';
+  }, 'customer-screenshot').then(function(url) {
     S.ss = url;
-    document.getElementById('ss-done').textContent = 'Screenshot uploaded!';
+    if (progWrap) progWrap.style.display = 'none';
+    if (sucMsg) sucMsg.style.display = 'block';
+    LL.toast('Screenshot uploaded!', 'ok');
   }).catch(function(e) {
     S.ss = null;
-    document.getElementById('ss-ph').style.display = 'block';
-    document.getElementById('ss-done').style.display = 'none';
+    phEl.style.display = 'block';
+    doneEl.style.display = 'none';
     LL.toast('Screenshot upload failed: ' + e.message, 'err');
-    console.error('[CL] onSS error:', e);
   });
 }
 
