@@ -375,6 +375,27 @@ body.loading{overflow:hidden;}
   #nav-cta-btn{display:none;}
 }
 @keyframes spin{to{transform:rotate(360deg);}}
+
+/* ── FOOTER ── */
+.site-footer{background:#0d0a08;border-top:1px solid rgba(201,148,58,.15);padding:32px 20px;margin-top:0;}
+.footer-inner{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:14px;}
+.footer-social{display:flex;gap:16px;}
+.footer-social-link{color:rgba(245,237,224,.5);transition:color .2s;}
+.footer-social-link:hover{color:var(--gold);}
+.footer-links{display:flex;gap:20px;}
+.footer-link{color:rgba(245,237,224,.4);font-size:.78rem;text-decoration:none;transition:color .2s;}
+.footer-link:hover{color:var(--gold);}
+.footer-copy{font-size:.72rem;color:rgba(245,237,224,.25);text-align:center;}
+
+/* ── FAQ ── */
+.faq-list{display:flex;flex-direction:column;gap:8px;}
+.faq-item{background:rgba(255,255,255,.04);border:1px solid rgba(201,148,58,.15);border-radius:10px;overflow:hidden;}
+.faq-q{padding:16px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:.88rem;color:rgba(245,237,224,.85);font-weight:500;user-select:none;}
+.faq-q:hover{background:rgba(255,255,255,.04);}
+.faq-icon{color:var(--gold);font-size:1.1rem;flex-shrink:0;transition:transform .25s;}
+.faq-item.open .faq-icon{transform:rotate(45deg);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;padding:0 20px;font-size:.83rem;color:var(--muted);line-height:1.7;}
+.faq-item.open .faq-a{max-height:400px;padding:0 20px 16px;}
 </style>
 <body class="loading">
 
@@ -626,7 +647,31 @@ body.loading{overflow:hidden;}
     We've received your order <strong id="suc-ref"></strong>. We'll send your book to <strong id="suc-phone"></strong> within the delivery window. God bless you! ✦
   </div>
   <a href="#" class="btn btn-gold" onclick="sessionStorage.removeItem('ht_order_placed');location.reload();return false;">Create Another Book</a>
+
+  <!-- FAQ -->
+  <div style="max-width:600px;margin:48px auto 0;text-align:left;">
+    <div style="font-family:var(--head-font);font-size:1.3rem;color:var(--gold);margin-bottom:20px;text-align:center;">Frequently Asked Questions</div>
+    <div class="faq-list" id="faq-list"></div>
+  </div>
 </div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-social">
+      <a href="https://www.facebook.com/littlelightstorybooks" target="_blank" rel="noopener" aria-label="Facebook" class="footer-social-link">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      </a>
+      <a href="https://www.instagram.com/littlelightstorybooks" target="_blank" rel="noopener" aria-label="Instagram" class="footer-social-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </a>
+    </div>
+    <div class="footer-links">
+      <a href="privacy.html" class="footer-link">Privacy Policy</a>
+    </div>
+    <div class="footer-copy">© 2026 Little Light Storybooks. All rights reserved.</div>
+  </div>
+</footer>
 
 <!-- GCASH PAYMENT MODAL -->
 <div class="modal-ov" id="pay-modal">
@@ -1382,6 +1427,7 @@ function confirmOrder() {
     suc.classList.add('on');
     suc.style.display = 'block';
     document.querySelector('.steps-wrap').parentElement.appendChild(suc);
+    renderFAQ();
     LL.toast('Order submitted!', 'ok');
   }, 6000);
 }
@@ -1437,6 +1483,74 @@ window.downloadPDF = downloadPDF;
 function oModal(id) { document.getElementById(id).classList.add('open'); }
 function cModal(id) { document.getElementById(id).classList.remove('open'); }
 function goTo(id)   { var el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: 'smooth' }); }
+</script>
+<!-- FAQ SCRIPT -->
+<script>
+var FAQ_ITEMS = [
+  {
+    q: "When will I receive my book?",
+    a: "Standard Option: 3–5 business days production after payment confirmation.<br>Hardbound Option: 2–3 weeks lead time due to the premium binding process.<br><br>Shipping estimates after production:<br>• NCR: 1–2 days<br>• Luzon: 1–3 days<br>• Visayas: 3–5 days<br>• Mindanao: 5–7 days<br><br>Please note that we do not ship to island locations at this time. We will contact you through the number you provided for updates."
+  },
+  {
+    q: "Where are you located?",
+    a: "We are based in Quezon City. We do not have a physical store at this time. You may reach us through our Messenger for all inquiries."
+  },
+  {
+    q: "What is your return and refund policy?",
+    a: "We have sold hundreds of books — now going into thousands — and have not had a single return case. We take quality seriously. However, if your book arrives damaged or in poor condition, it is insured through our courier and we will send a replacement book as soon as possible.<br><br>To process a replacement, a video of you opening the parcel is required as proof of condition upon arrival. Please note that a sticker is placed on the parcel — we kindly ask that you record your video before opening or removing it."
+  },
+  {
+    q: "Can I change the name or details after ordering?",
+    a: "Please message us immediately through Messenger and provide your reference number. We will match it with our records and do our best to accommodate the correction before production begins."
+  },
+  {
+    q: "What if I made a mistake in the name spelling?",
+    a: "Contact us immediately through Messenger before production begins. We will do our best to accommodate the correction."
+  },
+  {
+    q: "How will I know my order is being processed?",
+    a: "Once we confirm your payment, we will reach out to you via the contact number you provided. You may also message us directly through our Facebook page or tap the Messenger icon at the lower right side of the screen to chat with us."
+  },
+  {
+    q: "How is the book delivered?",
+    a: "We ship nationwide through our trusted courier partners."
+  },
+  {
+    q: "Can I order for multiple children?",
+    a: "Absolutely! Simply place a separate order for each child so each book is uniquely personalized."
+  },
+  {
+    q: "What if my payment screenshot was unclear?",
+    a: "Please message us directly through our Messenger so we can verify your payment manually."
+  },
+  {
+    q: "Is my child's photo kept private?",
+    a: "Yes. Your child's photo is used solely for creating the personalized book and is stored securely. We have a maximum of 1 week to store your photos and information after order placement. We do not share your data with any third parties."
+  }
+];
+
+function renderFAQ() {
+  var list = document.getElementById('faq-list');
+  if (!list) return;
+  list.innerHTML = FAQ_ITEMS.map(function(item, i) {
+    return '<div class="faq-item" id="faq-'+i+'">'
+      + '<div class="faq-q" onclick="toggleFAQ('+i+')">'
+      + LL.escHtml(item.q)
+      + '<span class="faq-icon">+</span></div>'
+      + '<div class="faq-a">'+item.a+'</div>'
+      + '</div>';
+  }).join('');
+}
+
+function toggleFAQ(i) {
+  var item = document.getElementById('faq-'+i);
+  if (!item) return;
+  var isOpen = item.classList.contains('open');
+  // Close all
+  document.querySelectorAll('.faq-item').forEach(function(el) { el.classList.remove('open'); });
+  // Open clicked if it was closed
+  if (!isOpen) item.classList.add('open');
+}
 </script>
 </body>
 </html>
