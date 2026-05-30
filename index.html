@@ -1297,7 +1297,7 @@ function confirmOrder() {
   var orderBtn = document.getElementById('order-now-btn');
   if (orderBtn) { orderBtn.disabled = true; orderBtn.textContent = 'Order Placed ✓'; }
 
-  LL.firePixel(total);
+  LL.firePixel(total, S.ref, window.location.href);
   cModal('pay-modal');
 
   // Show 3-second loading before success screen

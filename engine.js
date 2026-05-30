@@ -1116,6 +1116,27 @@ LL.initPixel = function(id) {
   fbq('init', id); fbq('track', 'PageView');
 };
 
-LL.firePixel = function(val) {
+LL.firePixel = function(val, ref, url) {
+  // Browser-side Pixel
   try { if (typeof fbq !== 'undefined') fbq('track', 'Purchase', { value: val, currency: 'PHP' }); } catch(e) {}
+
+  // Server-side CAPI via Cloudflare Worker
+  try {
+    var fbp = document.cookie.match(/_fbp=([^;]+)/);
+    var fbc = document.cookie.match(/_fbc=([^;]+)/);
+    fetch(LL.WORKER_URL + '/capi', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-App-Token': LL.APP_TOKEN,
+      },
+      body: JSON.stringify({
+        ref:   ref   || '',
+        value: val   || 0,
+        url:   url   || window.location.href,
+        fbp:   fbp   ? fbp[1] : '',
+        fbc:   fbc   ? fbc[1] : '',
+      }),
+    });
+  } catch(e) {}
 };
