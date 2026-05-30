@@ -1325,7 +1325,7 @@ function confirmOrder() {
       'We\'ve received your order {ref}. We\'ll send your book to {phone} within the delivery window. God bless you! ✦';
     var msgEl = document.getElementById('suc-msg');
     if (msgEl) {
-      var parts = msgTpl.replace('{ref}','|||REF|||').replace('{phone}','|||PHONE|||').split('|||');
+      var parts = msgTpl.replace('{ref}','|||REF|||').replace('{phone}','|||PHONE|||').replace('{babyname}', S.raw||'').split('|||');
       msgEl.innerHTML = parts.map(function(p){
         if(p==='REF')   return '<strong>Order #'+S.ref+'</strong>';
         if(p==='PHONE') return '<strong>'+S.phone+'</strong>';
