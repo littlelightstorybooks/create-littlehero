@@ -1441,7 +1441,7 @@ function confirmOrder() {
       msgEl.innerHTML = parts.map(function(p){
         if(p==='REF')   return '<strong>Order #'+S.ref+'</strong>';
         if(p==='PHONE') return '<strong>'+S.phone+'</strong>';
-        return LL.escHtml(p);
+        return LL.escHtml(p).replace(/\n/g, '<br>');
       }).join('');
     }
 
