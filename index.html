@@ -537,6 +537,16 @@ body.loading{overflow:hidden;}
           <div class="ferr" id="e-ded">Please write a dedication message.</div>
         </div>
 
+        <!-- Giver -->
+        <div class="fgrp">
+          <label class="flbl">Who is this book from? <span style="color:var(--err);font-size:.72rem;font-weight:600;">Required*</span></label>
+          <input class="finput" id="giver-msg" type="text"
+            placeholder="e.g. Daddy & Mommy, Lolo & Lola"
+            maxlength="60" oninput="onGiver(this)">
+          <div class="fcc" id="giver-cc">0 / 60 characters</div>
+          <div class="ferr" id="e-giver">Please fill in who this book is from.</div>
+        </div>
+
         <div class="step-footer">
           <div class="step-footer-note">All fields marked * are required.</div>
           <button class="btn btn-gold" onclick="goStep2()">Next — Preview Book →</button>
@@ -699,7 +709,7 @@ body.loading{overflow:hidden;}
 // ── STATE ──────────────────────────────────────────────────────
 var S = {
   raw: '', letters: '', gender: 'girl',
-  photo: null, ded: '', book: 'standard',
+  photo: null, ded: '', giver: '', book: 'standard',
   bName: '', phone: '', addr: '', ss: null, ref: '',
 };
 var _spreads = [];          // [{left, right}] pairs for the spread viewer
@@ -936,6 +946,14 @@ function onDed(el) {
   S.ded = el.value;
 }
 
+function onGiver(el) {
+  var len = el.value.length;
+  var cc = document.getElementById('giver-cc');
+  cc.textContent = len + ' / 60 characters';
+  cc.classList.toggle('warn', len > 50);
+  S.giver = el.value;
+}
+
 function onPhone(input) {
   var v = input.value.replace(/\D/g, '');
   if (v.length > 11) v = v.slice(0, 11);
@@ -984,6 +1002,7 @@ function goStep2() {
   } else showE('e-photo', false);
   if (!S.book)              { showE('e-book',  true);  ok = false; } else showE('e-book',  false);
   if (!S.ded || !S.ded.trim()) { showE('e-ded', true); ok = false; } else showE('e-ded', false);
+  if (!S.giver || !S.giver.trim()) { showE('e-giver', true); ok = false; } else showE('e-giver', false);
   if (!ok) { LL.toast('Please fill in all required fields', 'err'); return; }
 
   // 4-phase emotional loading screen
@@ -1064,7 +1083,7 @@ var _currentSpread = 0;
 window._LL_currentSpread = 0;
 
 function buildSpreads(state) {
-  var userData = { raw: S.raw, letters: S.letters, gender: S.gender, photo: S.photo, ded: S.ded };
+  var userData = { raw: S.raw, letters: S.letters, gender: S.gender, photo: S.photo, ded: S.ded, giver: S.giver };
   var pages    = LL.buildPageModel(state || LL._readLocalState(), userData);
   _allPages    = pages;
   var name     = S.raw.trim().replace(/\b\w/g, function(c) { return c.toUpperCase(); });
@@ -1261,6 +1280,7 @@ function confirmOrder() {
     timestamp:  new Date().toISOString(),
     child:      { name: S.raw, lettersOnly: S.letters, gender: S.gender, photo: S.photo },
     dedication: S.ded,
+    giver:      S.giver,
     bookType:   S.book,
     buyer:      { name: S.bName, phone: S.phone, address: S.addr },
     payment:    { screenshot: S.ss, amount: total, status: 'pending' },
@@ -1350,7 +1370,7 @@ async function downloadPDF() {
 
   // State is already current from goStep2's loadRemoteState call.
   var state = LL._readLocalState();
-  var userData = { raw: S.raw, letters: S.letters, gender: S.gender, photo: S.photo, ded: S.ded };
+  var userData = { raw: S.raw, letters: S.letters, gender: S.gender, photo: S.photo, ded: S.ded, giver: S.giver };
   var pdfPages = LL.buildPageModel(state, userData, { raw: true });
 
   LL.exportPDF(

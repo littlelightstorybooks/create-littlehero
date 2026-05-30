@@ -164,10 +164,12 @@ LL.outlineStyle = function(ly) {
   return stroke + 'text-shadow:' + sh + ';paint-order:stroke fill;';
 };
 
-// Substitute {{babyname}} in any text string.
-LL.resolvePlaceholders = function(text, name) {
+// Substitute {{babyname}} and {{giver}} in any text string.
+LL.resolvePlaceholders = function(text, name, giver) {
   if (!text) return '';
-  return String(text).replace(/\{\{babyname\}\}/gi, name || '');
+  return String(text)
+    .replace(/\{\{babyname\}\}/gi, name  || '')
+    .replace(/\{\{giver\}\}/gi,   giver || '');
 };
 
 // Safe HTML escaping for inline-rendered text.
@@ -249,7 +251,8 @@ LL.buildPageModel = function(state, userData, opts) {
   var introCount = cfg.introCount || 13;
   var outroCount = cfg.outroCount || 5;
   var letters    = ((userData && userData.letters) || '').toUpperCase();
-  var name       = ((userData && userData.raw) || '').trim();
+  var name       = ((userData && userData.raw)   || '').trim();
+  var giver      = ((userData && userData.giver) || '').trim();
 
   var pages = [];
 
@@ -408,13 +411,14 @@ LL.renderPage = function(page, name) {
   }
 
   var img  = page.image;
-  var nm   = name || '';
+  var nm   = name  || '';
+  var gv   = giver || '';
   var meta = page.meta || {};
   var ly   = meta.layout || {};
 
   // INTRO ----------------------------------------------------------
   if (page.type === 'intro') {
-    var msg = LL.resolvePlaceholders(page.message, nm);
+    var msg = LL.resolvePlaceholders(page.message, nm, gv);
     if (img) {
       var overlay = '';
       if (msg.trim()) {
@@ -620,7 +624,7 @@ LL.renderPage = function(page, name) {
     var mFnt = (ly.messageFont  || 'Lora')       + ',serif';
     var vFnt = (ly.verseFont    || 'Montserrat') + ',sans-serif';
 
-    function sub(s) { return LL.escHtml(LL.resolvePlaceholders(s, nm)).replace(/\n/g, '<br>'); }
+    function sub(s) { return LL.escHtml(LL.resolvePlaceholders(s, nm, gv)).replace(/\n/g, '<br>'); }
 
     // Per-element outline CSS (blessing / message / verse can each have their own)
     var bOutline = LL.outlineStyle({ outlineEnabled: ly.blessingOutlineEnabled, outlineColor: ly.blessingOutlineColor, outlineWidth: ly.blessingOutlineWidth });

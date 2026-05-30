@@ -1164,7 +1164,7 @@ function selectIntroPage(idx){
     +'</div></div>'
     +'</div>'
     +'<div class="form-section">Overlay Text</div>'
-    +'<div class="fgrp"><label class="flbl">Message <span style="font-weight:400;color:var(--muted);">(optional, {{babyname}} supported)</span></label>'
+    +'<div class="fgrp"><label class="flbl">Message <span style="font-weight:400;color:var(--muted);">(optional — {{babyname}} and {{giver}} supported)</span></label>'
     +'<textarea class="ftextarea" id="intro-msg" rows="3" oninput="introTextChange()">'+LL.escHtml(msg)+'</textarea></div>'
     +'<div class="form-section">Text Position</div>'
     +'<div class="f3col">'
@@ -1416,7 +1416,7 @@ function selectOutroPage(idx){
     +'<div class="fgrp"><label class="flbl">Right (px)</label><input class="finput" type="number" id="outro-pr" min="1" max="420" value="'+(ly.photoRight!=null?ly.photoRight:420)+'" oninput="outroLayoutChange()"></div>'
     +'</div></div>'
     +'<div class="form-section">Overlay Text</div>'
-    +'<div class="fgrp"><label class="flbl">Message <span style="font-weight:400;color:var(--muted);">(optional, {{babyname}} supported)</span></label>'
+    +'<div class="fgrp"><label class="flbl">Message <span style="font-weight:400;color:var(--muted);">(optional — {{babyname}} and {{giver}} supported)</span></label>'
     +'<textarea class="ftextarea" id="outro-msg" rows="3" oninput="outroTextChange()">'+LL.escHtml(msg)+'</textarea></div>'
     +'<div class="form-section">Text Position</div>'
     +'<div class="f3col">'
@@ -1854,7 +1854,7 @@ async function adminDownloadOrderPDF(ref){
   var gender=child.gender||'boy';
 
   // Build pages using the correct gender dataset from full ST
-  var userData={raw:childName,letters:childName.replace(/\s/g,'').toUpperCase(),gender:gender,photo:child.photo||null,ded:order.dedication||''};
+  var userData={raw:childName,letters:childName.replace(/\s/g,'').toUpperCase(),gender:gender,photo:child.photo||null,ded:order.dedication||'',giver:order.giver||''};
   var pages=LL.buildPageModel(ST,userData,{raw:true}); // full-res for PDF
 
   _adminPDFCancelled=false;
