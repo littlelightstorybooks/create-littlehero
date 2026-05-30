@@ -1131,12 +1131,11 @@ LL.firePixel = function(val, ref, url) {
         'X-App-Token': LL.APP_TOKEN,
       },
       body: JSON.stringify({
-        ref:      ref      || '',
-        value:    val      || 0,
-        url:      url      || window.location.href,
-        fbp:      fbp      ? fbp[1] : '',
-        fbc:      fbc      ? fbc[1] : '',
-        testCode: 'TEST2724',
+        ref:   ref   || '',
+        value: val   || 0,
+        url:   url   || window.location.href,
+        fbp:   fbp   ? fbp[1] : '',
+        fbc:   fbc   ? fbc[1] : '',
       }),
     });
   } catch(e) {}
