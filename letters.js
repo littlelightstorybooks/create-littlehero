@@ -704,7 +704,7 @@ var DEFAULT_MEANINGS = {
     },
     {
       title:"Z – Zeal",
-      text:"With zeal, {{babyname}}, heart on fire,\nGod lights in you a holy desire.\nServe with love in all you do,\nAnd watch what God does through you.\n\n{{babyname}}, when you serve God with a joyful heart, extraordinary things happen.",
+      text:"With zeal, {{babyname}}, heart on fire,\nGod fills you with His holy desire.\nServe with love in all you do,\nAnd watch what God does through you.\n\n{{babyname}}, when you serve God with a joyful heart, extraordinary things happen.",
       verse:"\"Whatever you do, work at it with all your heart, as working for the Lord.\" - Colossians 3:23"
     }
   ]
