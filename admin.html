@@ -1330,7 +1330,7 @@ function updateIntroPreview(){
     title:'',verse:'',message:(D().introMessages||[])[_introIdx]||'',
     meta:{layout:ly0,pageNum:_introIdx+1,isFrontCover:_introIdx===0,customerPhoto:null,
       dedication: ly0.useDedication ? dedPreview : null},
-  },'Maria');
+  },'Maria','Sample Giver');
   requestAnimationFrame(function(){ applyLpZoom(el.closest('.lp-wrap')); });
 }
 
@@ -1529,7 +1529,7 @@ function updateOutroPreview(){
   // Always render as 'intro' type so all layout fields (photo, text, outline) apply correctly
   var page={type:'intro',image:LL.resolveImg(img),title:'',verse:'',message:msg,
     meta:{layout:ly,pageNum:_outroIdx+1,isFrontCover:false,customerPhoto:null}};
-  el.innerHTML=LL.renderPage(page,'Maria');
+  el.innerHTML=LL.renderPage(page,'Maria','Sample Giver');
   requestAnimationFrame(function(){ applyLpZoom(el.closest('.lp-wrap')); });
 }
 
@@ -1729,7 +1729,7 @@ function updateLetterPreview(){
     title:tc.blessing||meaning.title||'',
     message:tc.message||meaning.text||'',
     verse:tc.verse||meaning.verse||'',
-    meta:{letter:l,layout:ly,nameLen:5}},'Maria');
+    meta:{letter:l,layout:ly,nameLen:5}},'Maria','Sample Giver');
   requestAnimationFrame(function(){ applyLpZoom(rEl.closest('.lp-wrap')); });
 }
 
@@ -1892,7 +1892,7 @@ async function adminDownloadOrderPDF(ref){
       if(page.type==='intro'||page.type==='outro') bg='#12100E';
       if(page.image) bg='transparent';
 
-      stage.innerHTML=LL.renderPage(page,childName);
+      stage.innerHTML=LL.renderPage(page,childName,order.giver||'');
       await rAF();await rAF();await wait(150);
 
       var c=await html2canvas(stage,{scale:3,useCORS:true,allowTaint:false,

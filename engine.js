@@ -401,11 +401,11 @@ LL.buildPageModel = function(state, userData, opts) {
 
 // ----------------------------------------------------------------
 // SECTION 3: SINGLE RENDER ENGINE
-// renderPage(page, name) -> HTML string
+// renderPage(page, name, giver) -> HTML string
 // Handles ALL page types. No branching outside this function.
 // ----------------------------------------------------------------
 
-LL.renderPage = function(page, name) {
+LL.renderPage = function(page, name, giver) {
   if (!page || page.type === 'filler') {
     return '<div style="width:100%;height:100%;background:#111;"></div>';
   }
@@ -933,7 +933,7 @@ LL._readLocalState = function() {
 // stage element at full 420x296, capture it, and add to the PDF.
 // This guarantees 1:1 correspondence between page count and PDF pages.
 // ----------------------------------------------------------------
-LL.exportPDF = async function(pageModels, childName, goSpreadFn, spreadCount, getSpreadEls, onProgress, onDone) {
+LL.exportPDF = async function(pageModels, childName, goSpreadFn, spreadCount, getSpreadEls, onProgress, onDone, giverName) {
   if (!window.jspdf || !window.html2canvas) {
     alert('PDF libraries still loading -- please wait a moment and try again.');
     return;
@@ -952,6 +952,7 @@ LL.exportPDF = async function(pageModels, childName, goSpreadFn, spreadCount, ge
   var doc   = new jsPDF({ orientation: 'landscape', unit: 'px', format: [420, 296] });
   var first = true;
   var name  = (childName || 'Book').trim();
+  var giver = (giverName || '').trim();
 
   // Create a dedicated off-screen render stage
   var stage = document.getElementById('pdf-render-stage');
@@ -982,7 +983,7 @@ LL.exportPDF = async function(pageModels, childName, goSpreadFn, spreadCount, ge
 
   // Render one page model into the stage and capture it
   async function renderAndCapture(page, bg) {
-    stage.innerHTML = LL.renderPage(page, name);
+    stage.innerHTML = LL.renderPage(page, name, giver);
     await rAF(); await rAF(); await wait(150);
     await capturePage(bg);
   }

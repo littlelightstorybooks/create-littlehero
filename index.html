@@ -1151,7 +1151,7 @@ function renderBookScroll(frontCoverPage, innerPages, backCoverPage, name) {
     pageModels.forEach(function(p) {
       var pageEl = document.createElement('div');
       pageEl.className = 'bsv-page';
-      pageEl.innerHTML = p ? LL.renderPage(p, name) : '';
+      pageEl.innerHTML = p ? LL.renderPage(p, name, S.giver||'') : '';
       inner.appendChild(pageEl);
     });
 
@@ -1381,7 +1381,8 @@ async function downloadPDF() {
     function() {
       if (btn) { btn.textContent = '⬇ Download PDF'; btn.disabled = false; }
       if (pgEl) pgEl.classList.remove('show');
-    }
+    },
+    S.giver || ''
   );
 }
 window.downloadPDF = downloadPDF;
