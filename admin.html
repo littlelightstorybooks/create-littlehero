@@ -1630,8 +1630,16 @@ function selectVar(i){_currentVariation=i;renderLetterEditor();}
 
 function addVariation(){
   ensureLetterVar();
-  D().letters[_currentLetter].variations.push({leftImg:null,rightImg:null,layout:{},text:{}});
-  _currentVariation=D().letters[_currentLetter].variations.length-1;
+  var l = _currentLetter;
+  var newIdx = D().letters[l].variations.length;
+  // Pre-populate with DEFAULT_MEANINGS for this variation index if available
+  var defEntry = (typeof DEFAULT_MEANINGS!=='undefined' && DEFAULT_MEANINGS[l] && DEFAULT_MEANINGS[l][newIdx]) || {};
+  var newVar = {leftImg:null, rightImg:null, layout:{}, text:{}};
+  if (defEntry.title) newVar.text.blessing = defEntry.title;
+  if (defEntry.text)  newVar.text.message  = defEntry.text;
+  if (defEntry.verse) newVar.text.verse    = defEntry.verse;
+  D().letters[l].variations.push(newVar);
+  _currentVariation = D().letters[l].variations.length - 1;
   markUnsaved(); renderLetterNav(); renderLetterEditor();
 }
 
@@ -1714,7 +1722,16 @@ function setLetterLayout(key,val){
 function ensureLetterVar(){
   if(!D().letters)D().letters={};
   if(!D().letters[_currentLetter])D().letters[_currentLetter]={};
-  if(!D().letters[_currentLetter].variations)D().letters[_currentLetter].variations=[{}];
+  if(!D().letters[_currentLetter].variations){
+    // Pre-populate first variation with DEFAULT_MEANINGS
+    var l = _currentLetter;
+    var defEntry = (typeof DEFAULT_MEANINGS!=='undefined' && DEFAULT_MEANINGS[l] && DEFAULT_MEANINGS[l][0]) || {};
+    var firstVar = {leftImg:null, rightImg:null, layout:{}, text:{}};
+    if (defEntry.title) firstVar.text.blessing = defEntry.title;
+    if (defEntry.text)  firstVar.text.message  = defEntry.text;
+    if (defEntry.verse) firstVar.text.verse    = defEntry.verse;
+    D().letters[_currentLetter].variations = [firstVar];
+  }
   while(D().letters[_currentLetter].variations.length<=_currentVariation)D().letters[_currentLetter].variations.push({});
   var v=D().letters[_currentLetter].variations[_currentVariation];
   if(!v.layout)v.layout={};
