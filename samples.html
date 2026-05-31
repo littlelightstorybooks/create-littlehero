@@ -224,7 +224,6 @@ body{background:var(--cream);font-family:'Lato',sans-serif;color:var(--text);}
 
 <script>
 var WORKER_URL = 'https://littlelight-littlehero.llomerferdinandsantos.workers.dev';
-var APP_TOKEN  = 'llapp_9x2k7mQvBpTrNdZs';
 
 function escHtml(s) {
   return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -284,7 +283,7 @@ function renderSpecs(specs) {
 }
 
 // Load data from JSONBin via Worker
-fetch(WORKER_URL + '/db/get', { headers: { 'X-App-Token': APP_TOKEN } })
+fetch(WORKER_URL + '/samples/public')
   .then(function(r){ return r.json(); })
   .then(function(data) {
     var sp   = data.samplesPage || {};
