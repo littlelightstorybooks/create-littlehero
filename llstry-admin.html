@@ -2216,7 +2216,10 @@ function saveSamples() {
   };
   sp.footer = { quote: document.getElementById('sp-footer-quote').value };
 
-  LL.saveOrder(D(), function() { toast('Samples page saved!', 'ok'); markSaved(); });
+  LL.saveRemoteState(D(), function(ok) {
+    if (ok) { toast('Samples page saved!', 'ok'); markSaved(); }
+    else toast('Save failed — try again', 'err');
+  });
 }
 </script>
 </body>
