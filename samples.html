@@ -281,14 +281,14 @@ function renderSpecs(specs) {
 }
 
 // Load data from JSONBin via Worker
-fetch(WORKER_URL + '/db/get', { headers: { 'X-App-Token': APP_TOKEN } })
+fetch(WORKER_URL + '/samples/get', { headers: { 'X-App-Token': APP_TOKEN } })
   .then(function(r){ return r.json(); })
   .then(function(data) {
-    var sp  = data.samplesPage || {};
-    var hero = sp.hero     || {};
-    var std  = sp.standard || {};
-    var hb   = sp.hardbound|| {};
-    var foot = sp.footer   || {};
+    var sp   = data.samplesPage || data.record && data.record.samplesPage || {};
+    var hero = sp.hero      || {};
+    var std  = sp.standard  || {};
+    var hb   = sp.hardbound || {};
+    var foot = sp.footer    || {};
 
     // Hero
     setText('sp-hero-eyebrow', hero.eyebrow || 'CRAFTED WITH LOVE');

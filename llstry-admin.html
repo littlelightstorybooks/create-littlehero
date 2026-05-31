@@ -2216,10 +2216,16 @@ function saveSamples() {
   };
   sp.footer = { quote: document.getElementById('sp-footer-quote').value };
 
-  LL.saveRemoteState(ST, function(ok) {
-    if (ok) { toast('Samples page saved!', 'ok'); }
+  var xhr = new XMLHttpRequest();
+  xhr.open('PUT', LL.WORKER_URL + '/samples/put', true);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.setRequestHeader('X-App-Token', LL.APP_TOKEN);
+  xhr.onload = function() {
+    if (xhr.status === 200) { toast('Samples page saved!', 'ok'); }
     else toast('Save failed — try again', 'err');
-  });
+  };
+  xhr.onerror = function() { toast('Save failed — try again', 'err'); };
+  xhr.send(JSON.stringify({ samplesPage: sp }));
 }
 </script>
 </body>
