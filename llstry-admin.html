@@ -2217,7 +2217,7 @@ function saveSamples() {
   sp.footer = { quote: document.getElementById('sp-footer-quote').value };
 
   LL.saveRemoteState(ST, function(ok) {
-    if (ok) { toast('Samples page saved!', 'ok'); markSaved(); }
+    if (ok) { toast('Samples page saved!', 'ok'); }
     else toast('Save failed — try again', 'err');
   });
 }
