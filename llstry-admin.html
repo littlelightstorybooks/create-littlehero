@@ -2102,10 +2102,10 @@ document.addEventListener('click',function(e){
 });
 
 // ── SAMPLES PAGE ─────────────────────────────────────────────────
-function getSamples() { return D().samplesPage || {}; }
+function getSamples() { return ST.samplesPage || {}; }
 
 function renderSamplesEditor() {
-  var sp = getSamples();
+  var sp = ST.samplesPage || {};
   var hero = sp.hero || {};
   var std  = sp.standard || {};
   var hb   = sp.hardbound || {};
@@ -2167,10 +2167,10 @@ function uploadSamplePhoto(type, idx, input) {
   var f = input.files[0]; if (!f) return;
   toast('Uploading photo...', 'ok');
   LL.uploadToCloudinary(f, 'littlehero_uploads/samples/'+type, null, 'template').then(function(url) {
-    if (!D().samplesPage) D().samplesPage = {};
-    if (!D().samplesPage[type]) D().samplesPage[type] = {};
-    if (!D().samplesPage[type].photos) D().samplesPage[type].photos = [];
-    D().samplesPage[type].photos[idx] = url;
+    if (!ST.samplesPage) ST.samplesPage = {};
+    if (!ST.samplesPage[type]) ST.samplesPage[type] = {};
+    if (!ST.samplesPage[type].photos) ST.samplesPage[type].photos = [];
+    ST.samplesPage[type].photos[idx] = url;
     markUnsaved();
     renderSamplesEditor();
     toast('Photo uploaded!', 'ok');
@@ -2178,15 +2178,15 @@ function uploadSamplePhoto(type, idx, input) {
 }
 
 function removeSamplePhoto(type, idx) {
-  if (!D().samplesPage || !D().samplesPage[type] || !D().samplesPage[type].photos) return;
-  D().samplesPage[type].photos[idx] = null;
+  if (!ST.samplesPage || !ST.samplesPage[type] || !ST.samplesPage[type].photos) return;
+  ST.samplesPage[type].photos[idx] = null;
   markUnsaved();
   renderSamplesEditor();
 }
 
 function saveSamples() {
-  if (!D().samplesPage) D().samplesPage = {};
-  var sp = D().samplesPage;
+  if (!ST.samplesPage) ST.samplesPage = {};
+  var sp = ST.samplesPage;
 
   sp.hero = {
     eyebrow:  document.getElementById('sp-eyebrow').value,
@@ -2216,7 +2216,7 @@ function saveSamples() {
   };
   sp.footer = { quote: document.getElementById('sp-footer-quote').value };
 
-  LL.saveRemoteState(D(), function(ok) {
+  LL.saveRemoteState(ST, function(ok) {
     if (ok) { toast('Samples page saved!', 'ok'); markSaved(); }
     else toast('Save failed — try again', 'err');
   });
