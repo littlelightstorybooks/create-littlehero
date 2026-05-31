@@ -232,7 +232,10 @@ function escHtml(s) {
 
 function getYouTubeEmbedUrl(url) {
   if (!url) return null;
-  var match = url.match(/(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/watch\?.+&v=))([\w-]{11})/);
+  // Standard: youtube.com/watch?v=ID
+  // Short: youtu.be/ID
+  // Shorts: youtube.com/shorts/ID
+  var match = url.match(/(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/watch\?.+&v=|\/shorts\/))([\w-]{11})/);
   return match ? 'https://www.youtube.com/embed/' + match[1] + '?rel=0&modestbranding=1' : null;
 }
 

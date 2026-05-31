@@ -16,7 +16,7 @@ function getCors(origin) {
   return {
     'Access-Control-Allow-Origin': allowed,
     'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type,X-App-Token',
+    'Access-Control-Allow-Headers': 'Content-Type,X-App-Token,X-Bin-Versioning',
     'Vary': 'Origin',
   };
 }
@@ -151,6 +151,39 @@ export default {
           body: JSON.stringify(eventData),
         }
       );
+      const data = await res.text();
+      return new Response(data, {
+        status: res.status,
+        headers: { ...cors, 'Content-Type': 'application/json' },
+      });
+    }
+
+    // ── /samples/get — fetch samples bin ─────────────────────────
+    if (path === '/samples/get' && request.method === 'GET') {
+      const deny = requireToken(); if (deny) return deny;
+      const res = await fetch('https://api.jsonbin.io/v3/b/6a1bb2e5ddf5aa59f77a8410/latest', {
+        headers: { 'X-Master-Key': env.JSONBIN_KEY, 'X-Bin-Meta': 'false' },
+      });
+      const data = await res.text();
+      return new Response(data, {
+        status: res.status,
+        headers: { ...cors, 'Content-Type': 'application/json' },
+      });
+    }
+
+    // ── /samples/put — save samples bin ──────────────────────────
+    if (path === '/samples/put' && request.method === 'PUT') {
+      const deny = requireToken(); if (deny) return deny;
+      const body = await request.text();
+      const res = await fetch('https://api.jsonbin.io/v3/b/6a1bb2e5ddf5aa59f77a8410', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Master-Key': env.JSONBIN_KEY,
+          'X-Bin-Meta': 'false',
+        },
+        body,
+      });
       const data = await res.text();
       return new Response(data, {
         status: res.status,
