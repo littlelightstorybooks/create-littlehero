@@ -712,7 +712,9 @@ LL.loadRemoteState = function(onDone) {
     var local = LL._readLocalState();
     if (xhr.status === 200) {
       try {
-        var remote = JSON.parse(xhr.responseText).record;
+        var parsed = JSON.parse(xhr.responseText);
+        // Support both JSONBin format ({record: {...}}) and KV direct format ({...})
+        var remote = parsed.record || (parsed.boy ? parsed : null);
         if (remote && typeof remote === 'object') {
           // Merge: remote has fresh text/config; local has images.
           // mergeStateWithLocalImages restores base64 images from localStorage

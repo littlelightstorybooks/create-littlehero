@@ -2022,7 +2022,7 @@ function runDiagnose(){
   xhr.onload=function(){
     if(xhr.status!==200){rlog('[FAIL] JSONBin HTTP '+xhr.status,'err');return;}
     try{
-      _remoteST=JSON.parse(xhr.responseText).record;
+      _remoteST=JSON.parse(xhr.responseText).record || (JSON.parse(xhr.responseText).boy ? JSON.parse(xhr.responseText) : null);
       rlog('[OK] JSONBin loaded','ok');
       var hasBoth=_remoteST.boy&&_remoteST.girl;
       rlog('Remote format: '+(hasBoth?'new (boy/girl)':'legacy flat'));
@@ -2056,7 +2056,7 @@ function runVerify(){
   xhr.onload=function(){
     if(xhr.status!==200){rlog('[FAIL] HTTP '+xhr.status,'err');return;}
     try{
-      var st=JSON.parse(xhr.responseText).record;
+      var st=JSON.parse(xhr.responseText).record || (JSON.parse(xhr.responseText).boy ? JSON.parse(xhr.responseText) : null);
       ['boy','girl'].forEach(function(g){
         var d=st[g]||{};
         rlog(g+': letters='+Object.keys(d.letters||{}).length+' introImgs='+(d.introImages||[]).filter(Boolean).length,(Object.keys(d.letters||{}).length?'ok':'warn'));
